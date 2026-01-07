@@ -55,7 +55,46 @@ echo "$CONTENT" > "$FILEPATH"
 echo "$(date): 筆記已儲存至 $FILEPATH"
 
 # === 更新 README 索引 ===
-# TODO: 實作自動更新索引功能
+README_FILE="$NOTES_DIR/README.md"
+DISPLAY_TITLE=$(echo "$CONTENT" | grep -m1 "^# " | sed 's/^# //')
+NOTE_DATE="$YEAR-$MONTH-$DAY"
+NOTE_LINK="$YEAR/$MONTH/$FILENAME"
+NEW_ENTRY="- [$NOTE_DATE] [$DISPLAY_TITLE]($NOTE_LINK)"
+
+# 判斷分類
+CATEGORY=""
+if echo "$DISPLAY_TITLE" | grep -Eiq "react|hook|next\.js|usestate|useeffect|usetransition|usememo|usecallback|suspense|concurrent"; then
+    CATEGORY="React"
+elif echo "$DISPLAY_TITLE" | grep -Eiq "typescript|型別|泛型|type|interface"; then
+    CATEGORY="TypeScript"
+elif echo "$DISPLAY_TITLE" | grep -Eiq "設計模式|效能|測試|架構|pattern|performance|testing"; then
+    CATEGORY="前端架構"
+else
+    CATEGORY="跨領域"
+fi
+
+# 在對應分類下插入新筆記
+# 使用 awk 處理，避免 sed 對特殊字元的問題
+if grep -q "## $CATEGORY" "$README_FILE"; then
+    awk -v category="## $CATEGORY" -v entry="$NEW_ENTRY" '
+    $0 == category {
+        print
+        getline  # 讀取空行
+        print    # 印出空行
+        getline  # 讀取下一行（可能是「尚無筆記」或已有的筆記）
+        if ($0 ~ /^\*尚無筆記\*$/) {
+            print entry  # 替換「尚無筆記」
+        } else {
+            print entry  # 插入新筆記
+            print        # 印出原本的筆記
+        }
+        next
+    }
+    { print }
+    ' "$README_FILE" > "$README_FILE.tmp" && mv "$README_FILE.tmp" "$README_FILE"
+fi
+
+echo "$(date): README 索引已更新 - 分類: $CATEGORY"
 
 # === Git 推送 ===
 cd "$REPO_DIR"
