@@ -44,7 +44,7 @@ React 18 將更新分為兩種優先級：
 
 **Vue 的做法**（需要手動管理）：
 
-```vue
+```html
 <script setup lang="ts">
 import { ref, nextTick } from 'vue'
 

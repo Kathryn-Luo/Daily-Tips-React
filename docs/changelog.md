@@ -52,7 +52,7 @@
 
 #### 功能優化（未來）
 
-- [ ] 實作自動更新 `learning-notes/README.md` 索引
+- [x] 實作自動更新 `learning-notes/README.md` 索引
 - [ ] 實作 Email 通知功能（目前為 placeholder）
 - [ ] 新增錯誤重試機制
 - [ ] 新增主題輪替邏輯（避免重複）
