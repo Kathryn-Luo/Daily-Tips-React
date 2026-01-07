@@ -36,7 +36,7 @@
 
 #### 啟用排程
 
-- [ ] 安裝 plist 到 LaunchAgents
+- [x] 安裝 plist 到 LaunchAgents
   ```bash
   cp scripts/com.kathryn.daily-learning.plist ~/Library/LaunchAgents/
   launchctl load ~/Library/LaunchAgents/com.kathryn.daily-learning.plist
@@ -45,9 +45,9 @@
 
 #### 測試驗證
 
-- [ ] 手動執行 `./scripts/daily-learning.sh` 測試
-- [ ] 確認筆記正確產生並 push 到 GitHub
-- [ ] 確認 Discord 通知正常發送
+- [x] 手動執行 `./scripts/daily-learning.sh` 測試
+- [x] 確認筆記正確產生並 push 到 GitHub
+- [x] 確認 Discord 通知正常發送
 - [ ] 確認 Email 通知正常發送
 
 #### 功能優化（未來）
