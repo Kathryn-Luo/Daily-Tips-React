@@ -1,0 +1,22 @@
+# 環境變數
+.env
+*.env
+.daily-learning-env
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+/tmp/
+
+# Node.js (如果未來需要)
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+
+# 暫存檔
+*.tmp
+*.bak
