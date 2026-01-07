@@ -36,7 +36,7 @@ echo "$(date): 開始產生學習內容..."
 PROMPT=$(cat "$PROMPT_FILE")
 
 # 使用 Claude Code 產生內容
-CONTENT=$(claude -p "$PROMPT" --output-format text)
+CONTENT=$(claude -p "$PROMPT" --output-format text --tools "")
 
 # 從內容中提取標題（第一行的 # 標題）
 TITLE=$(echo "$CONTENT" | grep -m1 "^# " | sed 's/^# //' | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd '[:alnum:]-')
