@@ -3,6 +3,9 @@
 *.env
 .daily-learning-env
 
+# LaunchAgent plist（包含個人路徑）
+scripts/com.kathryn.daily-learning.plist
+
 # macOS
 .DS_Store
 

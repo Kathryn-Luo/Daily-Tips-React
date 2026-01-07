@@ -1,4 +1,4 @@
-# Tip of the Weeks - 每日 AI 學習內容產生系統
+# Daily-Tips-React - 每日 AI 學習內容產生系統
 
 ## 專案概述
 
@@ -16,7 +16,7 @@
 │   └── {YYYY}/{MM}/          # 按年月分類
 └── scripts/
     ├── daily-learning.sh     # 主執行腳本
-    ├── com.kathryn.daily-learning.plist  # launchd 排程設定
+    ├── com.kathryn.daily-learning.plist.example  # launchd 排程範例（需複製並修改路徑）
     ├── .env.example          # 環境變數範例
     └── prompts/
         └── learning-prompt.txt  # AI prompt 模板
@@ -72,3 +72,7 @@ cat /tmp/daily-learning-error.log
 - Mac mini 需保持開機，launchd 才會執行排程
 - 筆記檔名格式：`DD-主題關鍵字.md`
 - learning-notes/README.md 索引需手動或自動更新
+- `com.kathryn.daily-learning.plist.example` 是範例檔，使用前需：
+  1. 複製為 `com.kathryn.daily-learning.plist`
+  2. 修改 `ProgramArguments` 中的路徑為實際路徑
+  3. 實際的 plist 檔案已加入 `.gitignore`，不會被追蹤

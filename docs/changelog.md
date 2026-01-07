@@ -24,15 +24,15 @@
 
 #### 環境設定（需手動完成）
 
-- [ ] 建立環境變數檔案 `~/.daily-learning-env`
+- [x] 建立環境變數檔案 `~/.daily-learning-env`
   ```bash
-  cp scripts/.env.example ~/.daily-learning-env
+  cp .env ~/.daily-learning-env
   # 編輯填入實際值
   ```
-- [ ] 設定 Gmail 應用程式密碼
-- [ ] 建立 Discord Webhook
-- [ ] 建立 GitHub Repository 並設定 remote
-- [ ] 推送程式碼到 GitHub
+- [x] 設定 Gmail 應用程式密碼
+- [x] 建立 Discord Webhook
+- [x] 建立 GitHub Repository 並設定 remote
+- [x] 推送程式碼到 GitHub
 
 #### 啟用排程
 
