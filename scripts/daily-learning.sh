@@ -5,6 +5,9 @@
 
 set -e
 
+# === 設定 PATH（launchd 環境需要）===
+export PATH="/Users/yk-luo/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+
 # === 設定 ===
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_DIR="$(dirname "$SCRIPT_DIR")"

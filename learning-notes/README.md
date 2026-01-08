@@ -4,6 +4,7 @@
 
 ## React
 
+- [2026-01-08] [React useLayoutEffect：解決畫面閃爍的秘密武器](2026/01/08-react-uselayouteffect解決畫面閃爍的秘密武器.md)
 - [2026-01-07] [React useTransition：打造流暢的使用者體驗](2026/01/07-react-usetransition打造流暢的使用者體驗.md)
 
 ## TypeScript
