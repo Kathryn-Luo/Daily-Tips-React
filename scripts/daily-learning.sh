@@ -13,7 +13,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_DIR="$(dirname "$SCRIPT_DIR")"
 NOTES_DIR="$REPO_DIR/learning-notes"
 PROMPT_FILE="$SCRIPT_DIR/prompts/learning-prompt.txt"
-ENV_FILE="$HOME/.daily-learning-env"
+ENV_FILE="$REPO_DIR/.env"
 
 # 載入環境變數
 if [ -f "$ENV_FILE" ]; then
@@ -107,6 +107,40 @@ git push
 
 echo "$(date): Git 推送完成"
 
+# === 函數定義 ===
+send_email() {
+    local subject="$1"
+    local body="$2"
+
+    # 檢查必要環境變數
+    if [ -z "$GMAIL_USER" ] || [ -z "$GMAIL_APP_PASSWORD" ] || [ -z "$EMAIL_TO" ]; then
+        echo "$(date): Email 環境變數未設定，跳過發送"
+        return 0
+    fi
+
+    # 組裝郵件內容
+    local email_content="From: $GMAIL_USER
+To: $EMAIL_TO
+Subject: $subject
+Content-Type: text/html; charset=UTF-8
+
+$body"
+
+    # 使用 curl 透過 Gmail SMTP 發送
+    if echo "$email_content" | curl --ssl-reqd \
+        --url 'smtps://smtp.gmail.com:465' \
+        --user "$GMAIL_USER:$GMAIL_APP_PASSWORD" \
+        --mail-from "$GMAIL_USER" \
+        --mail-rcpt "$EMAIL_TO" \
+        --upload-file - 2>&1; then
+        echo "$(date): Email 發送成功"
+        return 0
+    else
+        echo "$(date): Email 發送失敗" >&2
+        return 1
+    fi
+}
+
 # === 發送 Discord 通知 ===
 if [ -n "$DISCORD_WEBHOOK_URL" ]; then
     SUMMARY=$(echo "$CONTENT" | grep -A1 "^>" | head -2 | tail -1)
@@ -119,9 +153,30 @@ if [ -n "$DISCORD_WEBHOOK_URL" ]; then
 fi
 
 # === 發送 Email 通知 ===
-if [ -n "$GMAIL_USER" ] && [ -n "$GMAIL_APP_PASSWORD" ]; then
-    # 使用 curl 發送 email（需要額外設定）
-    echo "$(date): Email 通知功能待實作"
+if [ -n "$GMAIL_USER" ] && [ -n "$GMAIL_APP_PASSWORD" ] && [ -n "$EMAIL_TO" ]; then
+    SUMMARY=$(echo "$CONTENT" | grep -A1 "^>" | head -2 | tail -1)
+
+    # 組裝 HTML 郵件內容
+    EMAIL_SUBJECT="[Daily Learning] $DISPLAY_TITLE"
+    EMAIL_BODY="<html>
+<body>
+<h2>📚 每日學習筆記</h2>
+<p><strong>日期：</strong>$YEAR-$MONTH-$DAY</p>
+<p><strong>主題：</strong>$DISPLAY_TITLE</p>
+<p><strong>摘要：</strong>$SUMMARY</p>
+<hr>
+<p>🔗 <a href=\"$GITHUB_REPO_URL/blob/main/learning-notes/$YEAR/$MONTH/$FILENAME\">查看完整筆記</a></p>
+</body>
+</html>"
+
+    # 調用 send_email 函數
+    if send_email "$EMAIL_SUBJECT" "$EMAIL_BODY"; then
+        echo "$(date): Email 通知已發送至 $EMAIL_TO"
+    else
+        echo "$(date): Email 通知發送失敗，但不影響後續流程"
+    fi
+else
+    echo "$(date): Email 環境變數未完整設定，跳過 Email 通知"
 fi
 
 echo "$(date): 每日學習任務完成！"
