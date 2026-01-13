@@ -12,7 +12,7 @@
 
 ## TypeScript
 
-*尚無筆記*
+- [2026-01-13] [TypeScript 泛型（Generics）- 寫出靈活又型別安全的程式碼](2026/01/13-typescript-泛型generics--寫出靈活又型別安全的程式碼.md)
 
 ## 前端架構
 
