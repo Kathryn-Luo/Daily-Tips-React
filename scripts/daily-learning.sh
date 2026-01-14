@@ -143,10 +143,10 @@ $body"
 
 # === 發送 Discord 通知 ===
 if [ -n "$DISCORD_WEBHOOK_URL" ]; then
-    SUMMARY=$(echo "$CONTENT" | grep -A1 "^>" | head -2 | tail -1)
+    SUMMARY=$(echo "$CONTENT" | grep "^>" | sed 's/^> //' | head -1)
 
     curl -H "Content-Type: application/json" \
-         -d "{\"content\": \"📚 **今日學習筆記**\n\n**主題**: $TITLE\n**摘要**: $SUMMARY\n\n🔗 查看完整筆記：$GITHUB_REPO_URL/blob/main/learning-notes/$YEAR/$MONTH/$FILENAME\"}" \
+         -d "{\"content\": \"📚 **今日學習筆記**\n\n**主題**: $DISPLAY_TITLE\n**摘要**: $SUMMARY\n\n🔗 查看完整筆記：$GITHUB_REPO_URL/blob/main/learning-notes/$YEAR/$MONTH/$FILENAME\"}" \
          "$DISCORD_WEBHOOK_URL"
 
     echo "$(date): Discord 通知已發送"
@@ -154,7 +154,7 @@ fi
 
 # === 發送 Email 通知 ===
 if [ -n "$GMAIL_USER" ] && [ -n "$GMAIL_APP_PASSWORD" ] && [ -n "$EMAIL_TO" ]; then
-    SUMMARY=$(echo "$CONTENT" | grep -A1 "^>" | head -2 | tail -1)
+    SUMMARY=$(echo "$CONTENT" | grep "^>" | sed 's/^> //' | head -1)
 
     # 組裝 HTML 郵件內容
     EMAIL_SUBJECT="[Daily Learning] $DISPLAY_TITLE"
