@@ -7,7 +7,7 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/YOUR/PATH/TO/Daily-Tips-React/scripts/daily-learning.sh</string>
+        <string>/Volumes/KK's T9/PROJECT/Daily-Tips-React/scripts/daily-learning.sh</string>
     </array>
 
     <key>StartCalendarInterval</key>
